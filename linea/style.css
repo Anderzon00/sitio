@@ -1,0 +1,214 @@
+ 
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-family: 'Arial', sans-serif;
+      }
+
+      body {
+          background-color: #d2e9e0;
+          color: #333;
+          line-height: 1.6;
+      }
+
+      .timeline-container {
+          max-width: 800px;
+          margin: 50px auto;
+          padding: 20px;
+          position: relative;
+      }
+
+      .timeline-title {
+          text-align: center;
+          margin-bottom: 40px;
+          color: #2c3e50;
+      }
+
+      .timeline {
+          position: relative;
+          padding-left: 50px;
+      }
+
+      /* Línea vertical con degradado */
+      .timeline::before {
+          content: '';
+          position: absolute;
+          left: 25px;
+          top: 0;
+          bottom: 0;
+          width: 6px;
+          background: linear-gradient(to bottom, #009640, #00a84e, #00ba5c, #00cc6a, #fbba00);
+          border-radius: 3px;
+      }
+
+      .timeline-item {
+          position: relative;
+          margin-bottom: 40px;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.5s ease;
+      }
+
+      /* Primera tarjeta visible y expandida al inicio */
+      .timeline-item:first-child {
+          opacity: 1;
+          transform: translateY(0);
+      }
+      .timeline-item:first-child .timeline-content {
+          max-height: 500px;
+      }
+      .timeline-item:first-child .timeline-image,
+      .timeline-item:first-child .timeline-description {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+      }
+      .timeline-item:first-child .more-button {
+          display: none;
+      }
+
+      /* Estado visible para scroll */
+      .timeline-item.visible {
+          opacity: 1;
+          transform: translateY(0);
+      }
+
+      /* Punto en la línea */
+      .timeline-item::before {
+          content: '';
+          position: absolute;
+          left: -38px;
+          top: 10px;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #fff;
+          border: 4px solid #27ae60;
+          z-index: 1;
+          transition: all 0.3s ease;
+      }
+
+      .timeline-item:hover::before {
+          background: #27ae60;
+          transform: scale(1.2);
+      }
+
+      .timeline-content {
+          background: #fff;
+          padding: 25px;
+          border-radius: 12px;
+          box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          max-height: 70px;
+          overflow: hidden;
+          position: relative;
+          border-left: 5px solid #27ae60
+      }
+
+      .timeline-item.active .timeline-content,
+      .timeline-item:hover .timeline-content {
+          max-height: 500px;
+      }
+
+      .timeline-date {
+          font-weight: bold;
+          color: #27ae60;
+          margin-bottom: 10px;
+          font-size: 1.1em;
+      }
+
+      .timeline-item-title {
+          font-size: 1.2em;
+          margin-bottom: 10px;
+          color: #2c3e50;
+      }
+
+      .timeline-image {
+          width: 100%;
+          height: auto;
+          border-radius: 5px;
+          margin: 10px 0;
+          max-height: 200px;
+          object-fit: cover;
+          opacity: 0;
+          transform: scale(0.8);
+          transition: all 0.4s ease 0.1s;
+      }
+
+      .timeline-item.active .timeline-image,
+      .timeline-item:hover .timeline-image {
+          opacity: 1;
+          transform: scale(1);
+      }
+
+      .timeline-description {
+          color: #666;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: all 0.3s ease 0.2s;
+      }
+
+      .timeline-item.active .timeline-description,
+      .timeline-item:hover .timeline-description {
+          opacity: 1;
+          transform: translateY(0);
+      }
+
+      /* Botón "Más" */
+      .more-button {
+          position: absolute;
+          right: 20px;
+          bottom: 10px;
+          background: #27ae60;
+          color: white;
+          border: none;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+          z-index: 2;
+      }
+
+      .more-button::before {
+          content: '+';
+      }
+
+      .timeline-item.active .more-button,
+      .timeline-item:hover .more-button {
+          opacity: 0;
+          transform: scale(0);
+      }
+
+      /* Efecto de pulso */
+      .timeline-item:not(.active):not(:hover) .more-button {
+          animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+          100% { transform: scale(1); }
+      }
+
+      /* Indicador para móviles */
+      .mobile-hint {
+          display: none;
+          text-align: center;
+          font-size: 0.8em;
+          color: #7f8c8d;
+          margin-top: 20px;
+      }
+
+      @media (max-width: 600px) {
+          .timeline { padding-left: 30px; }
+          .timeline::before { left: 15px; width: 4px; }
+          .timeline-item::before { left: -28px; width: 16px; height: 16px; }
+          .mobile-hint { display: block; }
+      }

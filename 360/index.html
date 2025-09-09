@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tour 360 - Mejorado</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    body { margin: 0; }
+    @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap');
+    .a-text {
+      font-family: 'Exo 2', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <a-scene>
+    <a-assets>
+      <img id="pano1" src="habitacion.jpg">
+      <img id="pano2" src="habitacion2.jpg">
+      <img id="pano3" src="habitacion3.jpg">
+      <img id="pano4" src="habitacion4.jpg">
+    </a-assets>
+
+    <a-sky id="sky" material="src: #pano1"></a-sky>
+
+    <!-- Botón Ir a escena 2 -->
+    <a-plane id="btn-next"
+      class="clickable"
+      position="1.2 -0.8 -3"
+      width="1.2" height="0.5"
+      color="#388e3c"
+      material="shader: flat"
+      text="value: Ir a escena 2; align: center; color: #fff; width: 3; font: exo2bold"
+      visible="true">
+    </a-plane>
+
+    <!-- Botón Regresar a escena 1 -->
+    <a-plane id="btn-prev"
+      class="clickable"
+      position="-1.2 -0.8 -3"
+      width="1.2" height="0.5"
+      color="#d32f2f"
+      material="shader: flat"
+      text="value: Regresar a escena 1; align: center; color: #fff; width: 3; font: exo2bold"
+      visible="false">
+    </a-plane>
+
+    <!-- Botón Ir al inicio -->
+    <a-plane id="btn-home"
+      class="clickable"
+      position="0 0.8 -3"
+      width="1.2" height="0.5"
+      color="#1976d2"
+      material="shader: flat"
+      text="value: Ir al inicio; align: center; color: #fff; width: 3; font: exo2bold"
+      visible="false">
+    </a-plane>
+
+    <a-entity camera look-controls>
+      <a-cursor 
+        rayOrigin="mouse"
+        raycaster="objects: .clickable"
+        geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03">
+      </a-cursor>
+    </a-entity>
+  </a-scene>
+
+  <script>
+    // Panorámicas
+    const panos = ['#pano1', '#pano2', '#pano3', '#pano4'];
+    let current = 0;
+
+    // Elementos
+    const sky = document.getElementById('sky');
+    const btnNext = document.getElementById('btn-next');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnHome = document.getElementById('btn-home');
+
+    function updateScene() {
+      sky.setAttribute('material', 'src: ' + panos[current]);
+      // Personaliza los textos según el lugar
+      if (current === 0) {
+        // Entrada
+        btnNext.setAttribute('text', 'value: Ir a Bloque 2; align: center; color: #fff; width: 3; font: exo2bold');
+        btnPrev.setAttribute('visible', false);
+        btnNext.setAttribute('visible', true);
+        btnHome.setAttribute('visible', false);
+      } else if (current === 1) {
+        // Bloque 2
+        btnNext.setAttribute('text', 'value: Ir a Biblioteca; align: center; color: #fff; width: 3; font: exo2bold');
+        btnPrev.setAttribute('text', 'value: Regresar a Entrada; align: center; color: #fff; width: 3; font: exo2bold');
+        btnPrev.setAttribute('visible', true);
+        btnNext.setAttribute('visible', true);
+        btnHome.setAttribute('visible', true);
+      } else if (current === 2) {
+        // Biblioteca
+        btnNext.setAttribute('text', 'value: Ir a Oficina; align: center; color: #fff; width: 3; font: exo2bold');
+        btnPrev.setAttribute('text', 'value: Regresar a Bloque 2; align: center; color: #fff; width: 3; font: exo2bold');
+        btnPrev.setAttribute('visible', true);
+        btnNext.setAttribute('visible', true);
+        btnHome.setAttribute('visible', true);
+      } else if (current === 3) {
+        // Oficina
+        btnPrev.setAttribute('text', 'value: Regresar a Biblioteca; align: center; color: #fff; width: 3; font: exo2bold');
+        btnPrev.setAttribute('visible', true);
+        btnNext.setAttribute('visible', false);
+        btnHome.setAttribute('visible', true);
+      }
+    }
+
+    btnNext.addEventListener('click', () => {
+      if (current < panos.length - 1) {
+        current++;
+        updateScene();
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (current > 0) {
+        current--;
+        updateScene();
+      }
+    });
+
+    btnHome.addEventListener('click', () => {
+      current = 0;
+      updateScene();
+    });
+
+    // Inicializar
+    updateScene();
+  </script>
+</body>
+</html>

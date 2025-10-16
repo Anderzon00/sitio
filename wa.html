@@ -27,6 +27,15 @@
               Por favor, ingrese un número válido de 10 dígitos sin espacios ni caracteres especiales.
             </div>
           </div>
+          <div class="mb-3">
+            <label for="mensaje" class="form-label">Mensaje (opcional)</label>
+            <textarea
+              class="form-control"
+              id="mensaje"
+              placeholder="Escriba un mensaje para enviar por WhatsApp"
+              rows="3"
+            ></textarea>
+          </div>
           <button type="submit" class="btn btn-success w-100">Abrir WhatsApp Web</button>
         </form>
       </div>
@@ -39,12 +48,13 @@
 
       const form = document.getElementById('whatsappForm');
       const input = document.getElementById('numero');
+      const mensaje = document.getElementById('mensaje');
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         event.stopPropagation();
 
-        // Clean the input from any non-digit characters
+        // Limpiar el input de número
         const numero = input.value.trim().replace(/\D/g, '');
         input.value = numero;
 
@@ -53,7 +63,11 @@
           return;
         }
 
-        const url = `https://web.whatsapp.com/send?phone=57${numero}`;
+        // Obtener mensaje y codificarlo para URL si existe
+        const textoMensaje = mensaje.value.trim();
+        const mensajeEncoded = textoMensaje ? `&text=${encodeURIComponent(textoMensaje)}` : '';
+
+        const url = `https://web.whatsapp.com/send?phone=57${numero}${mensajeEncoded}`;
         window.open(url, '_blank', 'noopener');
       });
     })();

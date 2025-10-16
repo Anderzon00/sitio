@@ -1,17 +1,17 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portal UDENAR - Enlaces Académicos</title>
   <style>
     :root {
       --verde: #006A4E;
       --gris-claro: #f4f4f4;
-      --blanco: #FFFFFF;
+      --blanco: #ffffff;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
     }
 
@@ -24,6 +24,7 @@
       align-items: center;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
     }
 
     header {
@@ -37,7 +38,7 @@
       z-index: 1000;
     }
 
-    header h1 {
+    header h1, header h4 {
       margin: 0;
       font-size: clamp(1.2rem, 4vw, 1.8rem);
     }
@@ -46,7 +47,7 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-top: 2rem;
+      margin: 2rem auto 0;
       width: 90%;
       max-width: 500px;
     }
@@ -57,22 +58,24 @@
       background-color: var(--gris-claro);
       color: var(--verde);
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 700;
       padding: 1rem;
       border-radius: 10px;
-      transition: background 0.3s ease, transform 0.2s ease;
       border: 2px solid var(--verde);
       font-size: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a:focus {
       background-color: var(--verde);
       color: var(--blanco);
       transform: translateY(-2px);
+      outline: none;
     }
 
     footer {
-      margin-top: 3rem;
+      margin-top: auto;
       padding: 1rem;
       text-align: center;
       font-size: 0.9rem;
@@ -80,6 +83,49 @@
       border-top: 1px solid #ddd;
       width: 100%;
       background-color: var(--gris-claro);
+    }
+
+    .whatsapp-container {
+      font-family: Arial, sans-serif;
+      max-width: 300px;
+      margin: 2rem auto 3rem;
+      width: 90%;
+    }
+
+    .whatsapp-container label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--verde);
+    }
+
+    .whatsapp-container input[type="tel"] {
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      border: 1px solid var(--verde);
+      border-radius: 5px;
+      font-size: 1rem;
+      outline-offset: 2px;
+    }
+
+    .whatsapp-container button {
+      background-color: #25d366;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .whatsapp-container button:hover,
+    .whatsapp-container button:focus {
+      background-color: #1ebe57;
+      outline: none;
     }
 
     @media (min-width: 600px) {
@@ -110,42 +156,42 @@
 </head>
 <body>
   <header>
-    <h4>INSCRIPIONES - UDENAR SEDE REGIONAL TÚQUERRES 2026A</h4>
+    <h4>INSCRIPCIONES - UDENAR SEDE REGIONAL TÚQUERRES 2026A</h4>
   </header>
 
-  <nav>    
-    <a href="https://ci.udenar.edu.co:8082/sedes/default.aspx?sede=2" target="_blank">🔐 Generación de PIN Sede Túquerres</a>
-    <a href="https://sapiens.udenar.edu.co:4003/pregrado" target="_blank">📝 Formulario de Inscripción</a>
-    <a href="https://sapiens.udenar.edu.co:5032/" target="_blank">🧮 Cálculo de Ponderados</a>
-    <a href="https://www.udenar.edu.co/recursos/wp-content/uploads/2022/05/constancia_inscripciones_pregrado_para_IE.pdf" target="_blank">📄 Formato Estudiantes Grado 11</a>
-    <a href="https://www.udenar.edu.co/requisitos-de-inscripcion/" target="_blank">📄 Requisitos e información cupos espceciales</a>
-    <a href="https://resultadossaber11.icfes.edu.co/login" target="_blank">📄 Obtener resultados ICFES</a>       
+  <nav aria-label="Enlaces Académicos">
+    <a href="https://ci.udenar.edu.co:8082/sedes/default.aspx?sede=2" target="_blank" rel="noopener noreferrer" aria-label="Generación de PIN Sede Túquerres, se abre en una nueva pestaña">🔐 Generación de PIN Sede Túquerres</a>
+    <a href="https://sapiens.udenar.edu.co:4003/pregrado" target="_blank" rel="noopener noreferrer" aria-label="Formulario de Inscripción, se abre en una nueva pestaña">📝 Formulario de Inscripción</a>
+    <a href="https://sapiens.udenar.edu.co:5032/" target="_blank" rel="noopener noreferrer" aria-label="Cálculo de Ponderados, se abre en una nueva pestaña">🧮 Cálculo de Ponderados</a>
+    <a href="https://www.udenar.edu.co/recursos/wp-content/uploads/2022/05/constancia_inscripciones_pregrado_para_IE.pdf" target="_blank" rel="noopener noreferrer" aria-label="Formato para Estudiantes de Grado 11, se abre en una nueva pestaña">📄 Formato Estudiantes Grado 11</a>
+    <a href="https://www.udenar.edu.co/requisitos-de-inscripcion/" target="_blank" rel="noopener noreferrer" aria-label="Requisitos e información para cupos especiales, se abre en una nueva pestaña">📄 Requisitos e información cupos especiales</a>
+    <a href="https://resultadossaber11.icfes.edu.co/login" target="_blank" rel="noopener noreferrer" aria-label="Obtener resultados ICFES, se abre en una nueva pestaña">📄 Obtener resultados ICFES</a>
   </nav>
 
-  <div style="font-family: Arial; max-width: 300px;">
-  <label for="numero">Enviar WhatsApp</label><br>
-  <span> </span>
-  <input id="numero" type="tel" placeholder="3101234567" style="padding:5px; margin:5px 0; width: 100%;">
-  <button onclick="enviarWhatsApp()" style="background:#25D366; color:white; padding:8px 12px; border:none; border-radius:5px; cursor:pointer;">
-    Abrir WhatsApp Web
-  </button>
-</div>
-
-<script>
-  function enviarWhatsApp() {
-    let numero = document.getElementById('numero').value.replace(/\D/g,'');
-    if (numero === '') {
-      alert('Por favor ingrese un número válido');
-      return;
-    }
-    let url = `https://web.whatsapp.com/send?phone=57${numero}`;
-    window.open(url, '_blank');
-  }
-</script>
+  <section class="whatsapp-container" aria-label="Enviar mensaje por WhatsApp">
+    <label for="numero">Número de teléfono para WhatsApp</label>
+    <input id="numero" type="tel" placeholder="3101234567" aria-describedby="numeroHelp" pattern="[0-9]{10}" maxlength="10" required />
+    <button type="button" onclick="enviarWhatsApp()" aria-label="Abrir WhatsApp Web con el número indicado">Abrir WhatsApp Web</button>
+    <small id="numeroHelp" style="color: var(--verde);">Ingrese un número de 10 dígitos sin espacios ni caracteres especiales.</small>
+  </section>
 
   <footer>
-    Anderson Salazar<br>
-    © 2025 
+    Anderson Salazar<br />
+    © 2025
   </footer>
+
+  <script>
+    function enviarWhatsApp() {
+      const input = document.getElementById('numero');
+      let numero = input.value.trim().replace(/\D/g, '');
+      if (!/^\d{10}$/.test(numero)) {
+        alert('Por favor, ingrese un número válido de 10 dígitos.');
+        input.focus();
+        return;
+      }
+      const url = `https://web.whatsapp.com/send?phone=57${numero}`;
+      window.open(url, '_blank', 'noopener');
+    }
+  </script>
 </body>
 </html>

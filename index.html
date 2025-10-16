@@ -180,7 +180,7 @@
       // esquema para aplicaciones móviles (whatsapp://). Si no está disponible, el sistema puede no abrir.
       return `whatsapp://send?phone=${full}&text=${encoded}`;
     } else {
-      return `https://wa.me/${full}${encoded ? '?text=' + encoded : ''}`;
+      return `https://web.whatsapp.com/${full}${encoded ? '?text=' + encoded : ''}`;
     }
   }
 

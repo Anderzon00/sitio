@@ -113,114 +113,34 @@
     <h4>INSCRIPIONES - UDENAR SEDE REGIONAL TÚQUERRES 2026A</h4>
   </header>
 
-  <nav>
-    
+  <nav>    
     <a href="https://ci.udenar.edu.co:8082/sedes/default.aspx?sede=2" target="_blank">🔐 Generación de PIN Sede Túquerres</a>
     <a href="https://sapiens.udenar.edu.co:4003/pregrado" target="_blank">📝 Formulario de Inscripción</a>
     <a href="https://sapiens.udenar.edu.co:5032/" target="_blank">🧮 Cálculo de Ponderados</a>
     <a href="https://www.udenar.edu.co/recursos/wp-content/uploads/2022/05/constancia_inscripciones_pregrado_para_IE.pdf" target="_blank">📄 Formato Estudiantes Grado 11</a>
     <a href="https://www.udenar.edu.co/requisitos-de-inscripcion/" target="_blank">📄 Requisitos e información cupos espceciales</a>
-    <a href="https://resultadossaber11.icfes.edu.co/login" target="_blank">📄 Obtener resultados ICFES</a>
-   
-
-
-
-    
+    <a href="https://resultadossaber11.icfes.edu.co/login" target="_blank">📄 Obtener resultados ICFES</a>       
   </nav>
 
-  <div id="whatsapp-send" style="max-width:420px;margin:8px;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:Arial,Helvetica,sans-serif;">
-  <label style="display:block;margin-bottom:6px;font-weight:600;">Enviar WhatsApp</label>
-
-  <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-    <span aria-hidden="true" style="padding:8px 10px;border:1px solid #ccc;border-radius:6px;background:#f7f7f7;">+57</span>
-    <input id="wa-phone" type="tel" inputmode="numeric" pattern="[0-9]*"
-           placeholder="Ej: 3101234567" aria-label="Número de teléfono (sin código de país)"
-           style="flex:1;padding:8px;border:1px solid #ccc;border-radius:6px;"/>
-  </div>
-
-  <div style="margin-bottom:10px;">
-    <label for="wa-msg" style="display:block;font-size:13px;margin-bottom:4px;">Mensaje (por defecto: vacío)</label>
-    <textarea id="wa-msg" rows="3" placeholder="Escribir un mensaje (opcional)" aria-label="Mensaje a enviar"
-              style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></textarea>
-  </div>
-
-  <div style="display:flex;gap:8px;">
-    <button id="wa-open" type="button"
-            style="flex:1;padding:10px;border-radius:8px;border:none;background:#25D366;color:white;font-weight:600;cursor:pointer;">
-      Abrir WhatsApp
-    </button>
-
-    <button id="wa-open-app" type="button"
-            style="padding:10px;border-radius:8px;border:1px solid #ccc;background:white;color:#333;cursor:pointer;">
-      Abrir App (móvil)
-    </button>
-  </div>
-
-  <p id="wa-error" style="color:#a00;margin-top:8px;display:none;font-size:13px;"></p>
+  <div style="font-family: Arial; max-width: 300px;">
+  <label for="numero">Enviar WhatsApp</label><br>
+  <span>+57</span>
+  <input id="numero" type="tel" placeholder="3101234567" style="padding:5px; margin:5px 0; width: 100%;">
+  <button onclick="enviarWhatsApp()" style="background:#25D366; color:white; padding:8px 12px; border:none; border-radius:5px; cursor:pointer;">
+    Abrir WhatsApp Web
+  </button>
 </div>
 
 <script>
-(function(){
-  const phoneInput = document.getElementById('wa-phone');
-  const msgInput   = document.getElementById('wa-msg');
-  const openBtn    = document.getElementById('wa-open');
-  const openAppBtn = document.getElementById('wa-open-app');
-  const errorEl    = document.getElementById('wa-error');
-  const COUNTRY = '57'; // código de país fijo
-
-  function cleanNumber(value){
-    return (value || '').replace(/\D/g, ''); // elimina todo lo que no sea dígito
-  }
-
-  function buildWaUrl(phoneDigits, message, useAppScheme = false){
-    // phoneDigits debe venir sin código de país
-    const full = COUNTRY + phoneDigits;
-    const encoded = encodeURIComponent(message || '');
-    if(useAppScheme){
-      // esquema para aplicaciones móviles (whatsapp://). Si no está disponible, el sistema puede no abrir.
-      return `whatsapp://send?phone=${full}&text=${encoded}`;
-    } else {
-      return `https://web.whatsapp.com/${full}${encoded ? '?text=' + encoded : ''}`;
-    }
-  }
-
-  function showError(msg){
-    errorEl.textContent = msg;
-    errorEl.style.display = msg ? 'block' : 'none';
-  }
-
-  openBtn.addEventListener('click', function(){
-    showError('');
-    const cleaned = cleanNumber(phoneInput.value);
-    if(!cleaned){
-      showError('Ingrese un número telefónico válido (solo dígitos).');
-      phoneInput.focus();
+  function enviarWhatsApp() {
+    let numero = document.getElementById('numero').value.replace(/\D/g,'');
+    if (numero === '') {
+      alert('Por favor ingrese un número válido');
       return;
     }
-    const url = buildWaUrl(cleaned, msgInput.value, false);
+    let url = `https://web.whatsapp.com/send?phone=57${numero}`;
     window.open(url, '_blank');
-  });
-
-  openAppBtn.addEventListener('click', function(){
-    showError('');
-    const cleaned = cleanNumber(phoneInput.value);
-    if(!cleaned){
-      showError('Ingrese un número telefónico válido (solo dígitos).');
-      phoneInput.focus();
-      return;
-    }
-    const urlApp = buildWaUrl(cleaned, msgInput.value, true);
-    // Intento de abrir esquema de app; si falla, no hay fallback automático.
-    window.location.href = urlApp;
-  });
-
-  // Opcional: permitir pegar con formato (elimina espacios y caracteres)
-  phoneInput.addEventListener('input', function(){
-    const pos = phoneInput.selectionStart;
-    phoneInput.value = cleanNumber(phoneInput.value);
-    phoneInput.setSelectionRange(pos, pos);
-  });
-})();
+  }
 </script>
 
   <footer>

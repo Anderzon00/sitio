@@ -128,6 +128,101 @@
     
   </nav>
 
+  <div id="whatsapp-send" style="max-width:420px;margin:8px;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:Arial,Helvetica,sans-serif;">
+  <label style="display:block;margin-bottom:6px;font-weight:600;">Enviar WhatsApp</label>
+
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+    <span aria-hidden="true" style="padding:8px 10px;border:1px solid #ccc;border-radius:6px;background:#f7f7f7;">+57</span>
+    <input id="wa-phone" type="tel" inputmode="numeric" pattern="[0-9]*"
+           placeholder="Ej: 3101234567" aria-label="Número de teléfono (sin código de país)"
+           style="flex:1;padding:8px;border:1px solid #ccc;border-radius:6px;"/>
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label for="wa-msg" style="display:block;font-size:13px;margin-bottom:4px;">Mensaje (por defecto: vacío)</label>
+    <textarea id="wa-msg" rows="3" placeholder="Escribir un mensaje (opcional)" aria-label="Mensaje a enviar"
+              style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></textarea>
+  </div>
+
+  <div style="display:flex;gap:8px;">
+    <button id="wa-open" type="button"
+            style="flex:1;padding:10px;border-radius:8px;border:none;background:#25D366;color:white;font-weight:600;cursor:pointer;">
+      Abrir WhatsApp
+    </button>
+
+    <button id="wa-open-app" type="button"
+            style="padding:10px;border-radius:8px;border:1px solid #ccc;background:white;color:#333;cursor:pointer;">
+      Abrir App (móvil)
+    </button>
+  </div>
+
+  <p id="wa-error" style="color:#a00;margin-top:8px;display:none;font-size:13px;"></p>
+</div>
+
+<script>
+(function(){
+  const phoneInput = document.getElementById('wa-phone');
+  const msgInput   = document.getElementById('wa-msg');
+  const openBtn    = document.getElementById('wa-open');
+  const openAppBtn = document.getElementById('wa-open-app');
+  const errorEl    = document.getElementById('wa-error');
+  const COUNTRY = '57'; // código de país fijo
+
+  function cleanNumber(value){
+    return (value || '').replace(/\D/g, ''); // elimina todo lo que no sea dígito
+  }
+
+  function buildWaUrl(phoneDigits, message, useAppScheme = false){
+    // phoneDigits debe venir sin código de país
+    const full = COUNTRY + phoneDigits;
+    const encoded = encodeURIComponent(message || '');
+    if(useAppScheme){
+      // esquema para aplicaciones móviles (whatsapp://). Si no está disponible, el sistema puede no abrir.
+      return `whatsapp://send?phone=${full}&text=${encoded}`;
+    } else {
+      return `https://wa.me/${full}${encoded ? '?text=' + encoded : ''}`;
+    }
+  }
+
+  function showError(msg){
+    errorEl.textContent = msg;
+    errorEl.style.display = msg ? 'block' : 'none';
+  }
+
+  openBtn.addEventListener('click', function(){
+    showError('');
+    const cleaned = cleanNumber(phoneInput.value);
+    if(!cleaned){
+      showError('Ingrese un número telefónico válido (solo dígitos).');
+      phoneInput.focus();
+      return;
+    }
+    const url = buildWaUrl(cleaned, msgInput.value, false);
+    window.open(url, '_blank');
+  });
+
+  openAppBtn.addEventListener('click', function(){
+    showError('');
+    const cleaned = cleanNumber(phoneInput.value);
+    if(!cleaned){
+      showError('Ingrese un número telefónico válido (solo dígitos).');
+      phoneInput.focus();
+      return;
+    }
+    const urlApp = buildWaUrl(cleaned, msgInput.value, true);
+    // Intento de abrir esquema de app; si falla, no hay fallback automático.
+    window.location.href = urlApp;
+  });
+
+  // Opcional: permitir pegar con formato (elimina espacios y caracteres)
+  phoneInput.addEventListener('input', function(){
+    const pos = phoneInput.selectionStart;
+    phoneInput.value = cleanNumber(phoneInput.value);
+    phoneInput.setSelectionRange(pos, pos);
+  });
+})();
+</script>
+
   <footer>
     Anderson Salazar<br>
     © 2025 

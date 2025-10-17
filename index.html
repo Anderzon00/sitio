@@ -119,6 +119,7 @@
       font-size: 1rem;
       font-weight: 700;
       width: 100%;
+      margin-top: 0.5rem;
       transition: background-color 0.3s ease;
     }
 
@@ -160,18 +161,19 @@
   </header>
 
   <nav aria-label="Enlaces Académicos">
-    <a href="https://ci.udenar.edu.co:8082/sedes/default.aspx?sede=2" target="_blank" rel="noopener noreferrer" aria-label="Generación de PIN Sede Túquerres, se abre en una nueva pestaña">🔐 Generación de PIN Sede Túquerres</a>
-    <a href="https://sapiens.udenar.edu.co:4003/pregrado" target="_blank" rel="noopener noreferrer" aria-label="Formulario de Inscripción, se abre en una nueva pestaña">📝 Formulario de Inscripción</a>
-    <a href="https://sapiens.udenar.edu.co:5032/" target="_blank" rel="noopener noreferrer" aria-label="Cálculo de Ponderados, se abre en una nueva pestaña">🧮 Cálculo de Ponderados</a>
-    <a href="https://www.udenar.edu.co/recursos/wp-content/uploads/2022/05/constancia_inscripciones_pregrado_para_IE.pdf" target="_blank" rel="noopener noreferrer" aria-label="Formato para Estudiantes de Grado 11, se abre en una nueva pestaña">📄 Formato Estudiantes Grado 11</a>
-    <a href="https://www.udenar.edu.co/requisitos-de-inscripcion/" target="_blank" rel="noopener noreferrer" aria-label="Requisitos e información para cupos especiales, se abre en una nueva pestaña">📄 Requisitos e información cupos especiales</a>
-    <a href="https://resultadossaber11.icfes.edu.co/login" target="_blank" rel="noopener noreferrer" aria-label="Obtener resultados ICFES, se abre en una nueva pestaña">📄 Obtener resultados ICFES</a>
+    <a href="https://ci.udenar.edu.co:8082/sedes/default.aspx?sede=2" target="_blank" rel="noopener noreferrer">🔐 Generación de PIN Sede Túquerres</a>
+    <a href="https://sapiens.udenar.edu.co:4003/pregrado" target="_blank" rel="noopener noreferrer">📝 Formulario de Inscripción</a>
+    <a href="https://sapiens.udenar.edu.co:5032/" target="_blank" rel="noopener noreferrer">🧮 Cálculo de Ponderados</a>
+    <a href="https://www.udenar.edu.co/recursos/wp-content/uploads/2022/05/constancia_inscripciones_pregrado_para_IE.pdf" target="_blank" rel="noopener noreferrer">📄 Formato Estudiantes Grado 11</a>
+    <a href="https://www.udenar.edu.co/requisitos-de-inscripcion/" target="_blank" rel="noopener noreferrer">📄 Requisitos e información cupos especiales</a>
+    <a href="https://resultadossaber11.icfes.edu.co/login" target="_blank" rel="noopener noreferrer">📄 Obtener resultados ICFES</a>
   </nav>
 
   <section class="whatsapp-container" aria-label="Enviar mensaje por WhatsApp">
     <label for="numero">Número de teléfono para WhatsApp</label>
     <input id="numero" type="tel" placeholder="3101234567" aria-describedby="numeroHelp" pattern="[0-9]{10}" maxlength="10" required />
-    <button type="button" onclick="enviarWhatsApp()" aria-label="Abrir WhatsApp Web con el número indicado">Abrir WhatsApp Web</button>
+    <button id="btn-web" type="button" onclick="enviarWhatsAppWeb()">💻 Abrir WhatsApp Web</button>
+    <button id="btn-movil" type="button" onclick="enviarWhatsAppMovil()">📱 Abrir WhatsApp en Celular</button>
     <small id="numeroHelp" style="color: var(--verde);">Ingrese un número de 10 dígitos sin espacios ni caracteres especiales.</small>
   </section>
 
@@ -181,17 +183,50 @@
   </footer>
 
   <script>
-    function enviarWhatsApp() {
+    function esMovil() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function enviarWhatsAppWeb() {
+      const numero = validarNumero();
+      if (numero) {
+        const url = `https://web.whatsapp.com/send?phone=57${numero}`;
+        window.open(url, '_blank', 'noopener');
+      }
+    }
+
+    function enviarWhatsAppMovil() {
+      const numero = validarNumero();
+      if (numero) {
+        const url = `https://wa.me/57${numero}`;
+        window.location.href = url;
+      }
+    }
+
+    function validarNumero() {
       const input = document.getElementById('numero');
       let numero = input.value.trim().replace(/\D/g, '');
       if (!/^\d{10}$/.test(numero)) {
         alert('Por favor, ingrese un número válido de 10 dígitos.');
         input.focus();
-        return;
+        return null;
       }
-      const url = `https://web.whatsapp.com/send?phone=57${numero}`;
-      window.open(url, '_blank', 'noopener');
+      return numero;
     }
+
+    // Mostrar u ocultar botones según dispositivo
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnWeb = document.getElementById('btn-web');
+      const btnMovil = document.getElementById('btn-movil');
+
+      if (esMovil()) {
+        btnWeb.style.display = 'none';
+        btnMovil.style.display = 'block';
+      } else {
+        btnWeb.style.display = 'block';
+        btnMovil.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
